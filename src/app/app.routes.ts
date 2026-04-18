@@ -19,7 +19,7 @@ export const routes: Routes = [
     canActivate: [guestGuard],
     loadComponent: () =>
       import('./features/forgot-password/forgot-password').then((m) => m.ForgotPassword),
-    title: 'login page',
+    title: 'forgotPassword page',
   },
   {
     path: 'register',
