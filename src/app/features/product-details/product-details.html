@@ -1,0 +1,89 @@
+
+    <div class="max-w-350 mx-auto p-4 space-y-12">
+  
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+    
+    <div class="lg:col-span-4 space-y-4">
+      <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 aspect-square flex items-center justify-center overflow-hidden">
+        <img [src]="productDetails().imageCover" class="w-full object-contain" alt="Main productDetails()">
+      </div>
+      <div class="grid grid-cols-4 gap-2">
+        @for (img of productDetails().images; track $index) {
+          <div class="border rounded-xl p-1 cursor-pointer hover:border-green-500 transition-all">
+            <img [src]="img" class="w-full aspect-square object-contain" alt="thumbnail">
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 space-y-6">
+      <div class="space-y-2">
+        <div class="flex gap-2">
+          <span class="bg-green-50 text-green-700 text-xs px-3 py-1 rounded-full font-medium">{{productDetails().category.name}}</span>
+          <span class="bg-gray-50 text-gray-700 text-xs px-3 py-1 rounded-full font-medium">{{productDetails().brand.name}}</span>
+        </div>
+        <h1 class="text-3xl font-bold text-[#001e2b]">{{productDetails().title}}</h1>
+        <div class="flex items-center gap-2">
+          <div class="flex text-yellow-400 text-xs">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+          </div>
+          <span class="text-sm text-gray-400">{{productDetails().ratingsAverage}} (16 reviews)</span>
+        </div>
+      </div>
+
+      <div class="text-3xl font-black text-[#198754]">{{productDetails().price}} EGP</div>
+      <div class="bg-green-50 text-green-700 px-4 py-1.5 rounded-lg text-sm font-bold w-fit italic">In Stock</div>
+
+      <p class="text-gray-500 leading-relaxed max-w-2xl">{{productDetails().description}}</p>
+
+      <div class="flex items-center gap-4 py-4 border-y border-gray-100">
+        <span class="font-bold text-sm">Quantity</span>
+        <div class="flex items-center border border-gray-200 rounded-lg p-1">
+          <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded">-</button>
+          <input  title="Quantity" aria-label="Quantity" type="text" value="1" class="w-12 text-center font-bold outline-none">
+          <button class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded">+</button>
+        </div>
+        <span class="text-xs text-gray-400">225 available</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <button
+        (click)="addToCart(productDetails()._id)"
+        type="button"
+        class="bg-[#198754] text-white py-4 rounded-xl font-bold hover:bg-[#146c43] flex items-center justify-center gap-2 transition-all">
+          <i class="fa-solid fa-cart-shopping"></i> Add to Cart
+        </button>
+        <button class="bg-[#001e2b] text-white py-4 rounded-xl font-bold hover:opacity-90 flex items-center justify-center gap-2 transition-all">
+          <i class="fa-solid fa-bolt"></i> Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-sm">
+    <div class="flex border-b border-gray-100 bg-gray-50/50">
+      <button class="px-8 py-4 text-[#198754] border-b-2 border-[#198754] font-bold text-sm bg-white">Product Details</button>
+      <button class="px-8 py-4 text-gray-500 font-bold text-sm hover:text-gray-800">Reviews (16)</button>
+      <button class="px-8 py-4 text-gray-500 font-bold text-sm hover:text-gray-800">Shipping & Returns</button>
+    </div>
+    <div class="p-8">
+       <h4 class="font-bold mb-4">About this Product</h4>
+       <p class="text-gray-600 leading-relaxed">{{productDetails().description}}</p>
+    </div>
+  </div>
+
+  <div class="space-y-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-1.5 h-8 bg-[#198754] rounded-full"></div>
+        <h2 class="text-2xl font-bold text-[#001e2b]">You May Also <span class="text-[#198754]">Like</span></h2>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      </div>
+  </div>
+
+</div>
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

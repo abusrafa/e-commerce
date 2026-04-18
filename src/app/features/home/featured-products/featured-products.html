@@ -1,0 +1,20 @@
+<section class="py-10 px-4">
+  <div class="max-w-350 mx-auto">
+    <div class="flex items-center gap-2 mb-8">
+      <div class="w-1.5 h-8 bg-[#198754] rounded-full"></div>
+      <h2 class="text-2xl font-bold text-[#001e2b]">
+        Featured <span class="text-[#198754]">Products</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+      @for (product of productsList(); track product) {
+
+        <app-product-card [product]="product"/>
+      }
+    </div>
+  </div>
+</section>
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

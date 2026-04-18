@@ -1,0 +1,533 @@
+<div
+  id="top-bar"
+  [class.top-bar-hidden]="!isTopBarVisible"
+  class="hidden lg:block bg-gray-50 border-b border-gray-100 py-2 transition-all duration-300"
+>
+  <div class="max-w-350 mx-auto px-4 flex justify-between items-center text-[13px] text-gray-600">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-truck text-[#198754]"></i>
+
+        <span>Free Shipping on Orders 500 EGP</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-gift text-[#198754]"></i>
+
+        <span>New Arrivals Daily</span>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-4 border-l pl-4 border-gray-200">
+        <a href="tel:+18001234567" class="hover:text-green-600 flex items-center gap-1">
+          <i class="fa-solid fa-phone text-[11px]"></i> +1 (800) 123-4567
+        </a>
+
+        <a href="mailto:support@freshcart.com" class="hover:text-green-600 flex items-center gap-1">
+          <i class="fa-solid fa-envelope text-[11px]"></i> support@freshcart.com
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        @if (!isLoggedIn()) {
+          <a
+            routerLinkActive="text-green-600"
+            routerLink="/login"
+            class="hover:text-green-600 flex items-center gap-1 font-medium"
+          >
+            <i class="fa-regular fa-user"></i> Sign In
+          </a>
+
+          <a
+            routerLinkActive="text-green-600"
+            routerLink="/register"
+            class="hover:text-green-600 flex items-center gap-1 font-medium"
+          >
+            <i class="fa-solid fa-user-plus"></i> Sign Up
+          </a>
+        } @else {
+          <a (click)="signOut()"> <i class="fa-solid fa-user-plus"></i> Sign Out </a>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="bg-white border-b border-gray-200 px-4 py-2.5 sticky top-0 z-40">
+  <div class="flex flex-wrap justify-between items-center mx-auto max-w-350">
+    <a routerLinkActive="text-green-600" routerLink="/" class="flex items-center gap-2">
+      <img src="/images/fresh-logo.svg" alt="icon-image">
+    </a>
+    <div class="hidden lg:flex items-center grow justify-center px-10">
+
+<div class="relative w-full max-w-md mr-8">
+  <input
+    #searchInput
+    (input)="goToSearch(searchInput.value)"
+    type="text"
+    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-full border border-gray-300 focus:ring-green-500 focus:border-green-500"
+    placeholder="Search products..."
+  />
+  <button
+    type="button"
+    routerLink="/search"
+    class="absolute inset-y-1 right-1 px-4 text-white bg-[#198754] rounded-full hover:bg-green-800"
+  >
+    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+  </button>
+</div>
+<ul class="flex flex-row items-center space-x-8 font-medium text-sm">
+  
+  <li>
+    <a routerLink="/" 
+       routerLinkActive="text-green-600" 
+       [routerLinkActiveOptions]="{ exact: true }" 
+       class="block py-2 text-gray-700 hover:text-green-600">Home</a>
+  </li>
+
+  <li>
+    <a routerLinkActive="text-green-600" 
+       [routerLink]="['/Products', '']" 
+       class="block py-2 text-gray-700 hover:text-green-600">Shop</a>
+  </li>
+
+<li class="group relative">
+          <button
+            id="dropdownNavbarLink"
+            class="flex items-center text-gray-700 hover:text-green-600 gap-1 py-2 transition-colors duration-300"
+          >
+            Categories
+            <i
+              class="fa-solid fa-chevron-down text-2xs transition-transform duration-300 group-hover:rotate-180"
+            ></i>
+          </button>
+          <div
+            id="dropdownNavbar"
+            class="z-50 hidden group-hover:block absolute top-full left-0 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-48 transition-all duration-300"
+          >
+            <ul class="py-2 text-sm text-gray-700 font-medium">
+              <li>
+                <a
+                  routerLink="/categories"
+                  routerLinkActive="text-green-600"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600 transition-colors"
+                  >All Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d2d167d9aa4ca970649f']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Electronics</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d58a0049ad0b52b9003f']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Women's Fashion</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d5b90049ad0b52b90048']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Men's Fashion</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category', '6439d30b67d9aa4ca97064b1']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Beauty & Health</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+  <li>
+    <a routerLinkActive="text-green-600" 
+       routerLink="/brands" 
+       class="block py-2 text-gray-700 hover:text-green-600">Brands</a>
+  </li>
+  
+</ul>
+
+<!-- 
+      <ul class="flex flex-row space-x-8 font-medium text-sm">
+        <li>
+          <a
+            routerLink="/"
+            routerLinkActive="text-green-600"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-gray-700 hover:text-green-600"
+            >Home</a
+          >
+        </li>
+
+        <li>
+          <a
+            routerLinkActive="text-green-600"
+            [routerLink]="['/Products', '']"
+            class="text-gray-700 hover:text-green-600"
+            >Shop</a
+          >
+        </li>
+
+        <li class="group relative">
+          <button
+            id="dropdownNavbarLink"
+            class="flex items-center text-gray-700 hover:text-green-600 gap-1 py-2 transition-colors duration-300"
+          >
+            Categories
+            <i
+              class="fa-solid fa-chevron-down text-2xs transition-transform duration-300 group-hover:rotate-180"
+            ></i>
+          </button>
+          <div
+            id="dropdownNavbar"
+            class="z-50 hidden group-hover:block absolute top-full left-0 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow-xl w-48 transition-all duration-300"
+          >
+            <ul class="py-2 text-sm text-gray-700 font-medium">
+              <li>
+                <a
+                  routerLink="/categories"
+                  routerLinkActive="text-green-600"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600 transition-colors"
+                  >All Categories</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d2d167d9aa4ca970649f']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Electronics</a
+                >
+              </li>
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d58a0049ad0b52b9003f']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Women's Fashion</a
+                >
+              </li>
+
+              <li>
+                <a
+                  [routerLink]="['/Products/category','6439d5b90049ad0b52b90048']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Men's Fashion</a
+                >
+              </li>
+
+              <li>
+                <a
+                  [routerLink]="['/Products/category', '6439d30b67d9aa4ca97064b1']"
+                  class="block px-4 py-2 hover:bg-green-50 hover:text-green-600"
+                  >Beauty & Health</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li>
+          <a
+            routerLinkActive="text-green-600"
+            routerLink="/brands"
+            class="text-gray-700 hover:text-green-600"
+            >Brands</a
+          >
+        </li>
+      </ul> 
+    -->
+    </div>
+
+    <div
+      routerLinkActive="text-green-600"
+      routerLink="/support"
+      class="cursor-pointer flex items-center gap-3 pr-5 border-r border-gray-200"
+    >
+      <div
+        class="bg-[#e9f7ef] text-[#198754] w-10 h-10 rounded-full flex items-center justify-center text-xl shrink-0"
+      >
+        <i class="fa-solid fa-headset"></i>
+      </div>
+
+      <div class="flex flex-col text-right">
+        <p class="text-[11px] text-gray-400 leading-tight">Support</p>
+
+        <p class="text-[13px] font-bold text-[#001e2b] whitespace-nowrap">24/7 Help</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden sm:flex items-center gap-4 text-gray-500 mr-2">
+        <a
+          routerLinkActive="text-green-600"
+          routerLink="/wishlist"
+          class="hover:text-green-600 relative"
+        >
+          <i class="fa-regular fa-heart text-xl"></i>
+
+          <span
+            class="absolute -top-1.5 -right-1.5 size-4.5 inline-flex items-center justify-center text-2xs font-bold text-white bg-red-600 rounded-full"
+          >
+            {{ wishlistCount() }}</span
+          >
+        </a>
+
+        <a
+          routerLinkActive="text-green-600"
+          routerLink="/cart"
+          class="hover:text-green-600 relative"
+        >
+          <i class="fa-solid fa-cart-shopping text-xl"></i>
+
+          <span
+            class="absolute -top-2 -right-2 inline-flex items-center justify-center size-4.5 text-2xs font-bold text-white bg-green-600 rounded-full"
+          >
+            {{ cartCount() }}</span
+          >
+        </a>
+      </div>
+
+      @if (!isLoggedIn()) {
+        <button
+          routerLinkActive="text-green-600"
+          routerLink="/login"
+          class="hidden lg:block text-white bg-[#198754] hover:bg-green-800 font-medium rounded-full text-sm px-6 py-2.5 transition"
+        >
+          Sign In
+        </button>
+      } @else {
+        <div class="relative inline-block text-left">
+          <button
+            (click)="toggleMenu()"
+            class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-all active:scale-95"
+          >
+            <div class="w-10 h-10 rounded-full bg-[#f2fcf6] flex items-center justify-center">
+              <i class="fa-regular fa-user text-[#198754] text-xl"></i>
+            </div>
+          </button>
+
+          @if (isMenuOpen()) {
+            <div
+              class="absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fade-in-down"
+            >
+              <div class="p-5 flex items-center gap-4 border-b border-gray-50 bg-white">
+                <div class="w-12 h-12 rounded-full bg-[#f2fcf6] flex items-center justify-center">
+                  <i class="fa-regular fa-user text-[#198754] text-xl"></i>
+                </div>
+
+                <div class="flex flex-col">
+                  <span class="font-bold text-[#001e2b] text-lg leading-tight">Ali</span>
+
+                  <span class="text-gray-400 text-sm truncate w-40">abusrafa@gmail.com</span>
+                </div>
+              </div>
+
+              <div class="py-2">
+                <a
+                  routerLink="/profile"
+                  class="flex items-center gap-4 px-6 py-3.5 text-gray-600 hover:bg-gray-50 hover:text-[#198754] group"
+                >
+                  <i
+                    class="fa-regular fa-user text-xl w-6 text-gray-400 group-hover:text-[#198754]"
+                  ></i>
+
+                  <span class="font-medium">My Profile</span>
+                </a>
+
+                <a
+                  routerLink="/allorders"
+                  class="flex items-center gap-4 px-6 py-3.5 text-gray-600 hover:bg-gray-50 hover:text-[#198754] group"
+                >
+                  <i
+                    class="fa-solid fa-box-open text-xl w-6 text-gray-400 group-hover:text-[#198754]"
+                  ></i>
+
+                  <span class="font-medium">My Orders</span>
+                </a>
+
+                <a
+                  routerLink="/wishlist"
+                  class="flex items-center gap-4 px-6 py-3.5 text-gray-600 hover:bg-gray-50 hover:text-[#198754] group"
+                >
+                  <i
+                    class="fa-regular fa-heart text-xl w-6 text-gray-400 group-hover:text-[#198754]"
+                  ></i>
+
+                  <span class="font-medium">My Wishlist</span>
+                </a>
+
+                <a
+                  routerLink="/profile/addresses"
+                  class="flex items-center gap-4 px-6 py-3.5 text-gray-600 hover:bg-gray-50 hover:text-[#198754] transition-colors group"
+                >
+                  <i
+                    class="fa-regular fa-address-book text-xl w-6 text-gray-400 group-hover:text-[#198754]"
+                  ></i>
+
+                  <span class="font-medium">Addresses</span>
+                </a>
+
+                <a
+                  routerLink="/profile/settings"
+                  class="flex items-center gap-4 px-6 py-3.5 text-gray-600 hover:bg-gray-50 hover:text-[#198754] transition-colors group"
+                >
+                  <i
+                    class="fa-solid fa-gear text-xl w-6 text-gray-400 group-hover:text-[#198754]"
+                  ></i>
+
+                  <span class="font-medium">Settings</span>
+                </a>
+              </div>
+
+              <div class="border-t border-gray-50 mt-1">
+                <button
+                  (click)="signOut()"
+                  class="w-full flex items-center gap-4 px-6 py-5 text-red-500 hover:bg-red-50 group"
+                >
+                  <i class="fa-solid fa-arrow-right-from-bracket text-xl w-6 rotate-180"></i>
+
+                  <span class="font-bold">Sign Out</span>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <button
+        type="button"
+        data-drawer-target="drawer-right-example"
+        data-drawer-show="drawer-right-example"
+        data-drawer-placement="right"
+        class="inline-flex items-center p-2 text-white bg-[#198754] rounded-full lg:hidden hover:bg-green-700 shadow-lg"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div
+  id="drawer-right-example"
+  class="fixed top-0 right-0 z-50 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 shadow-2xl lg:hidden"
+  tabindex="-1"
+>
+  <div class="flex items-center justify-between border-b pb-4 mb-4">
+    <button
+      type="button"
+      data-drawer-hide="drawer-right-example"
+      class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 inline-flex items-center"
+    >
+      <i class="fa-solid fa-xmark text-xl"></i>
+    </button>
+    <h5 class="inline-flex items-center text-lg font-bold text-[#001e2b]">
+      FreshCart <i class="fa-solid fa-cart-shopping ml-2 text-[#2bb673]"></i>
+    </h5>
+  </div>
+  <div class="p-5 space-y-6">
+    <div class="relative">
+      <input
+        type="text"
+        placeholder="Search products..."
+        class="w-full bg-gray-50 border border-gray-200 rounded-lg py-2.5 px-4 text-sm focus:outline-none"
+      />
+      <button
+        class="absolute right-2 top-1.5 bg-[#198754] text-white w-8 h-8 rounded-md flex items-center justify-center"
+      >
+        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+      </button>
+    </div>
+    <div class="space-y-6 text-gray-700 font-medium border-b pb-6">
+      <a routerLinkActive="text-green-600" routerLink="/" class="block hover:text-green-600"
+        >Home</a
+      >
+      <a routerLinkActive="text-green-600" routerLink="/Products" class="block hover:text-green-600"
+        >Shop</a
+      >
+     <a
+        routerLinkActive="text-green-600"
+        routerLink="/Categories"
+        class="block hover:text-green-600"
+        >Categories</a
+      >
+
+      <a routerLinkActive="text-green-600" routerLink="/brands" class="block hover:text-green-600"
+        >Brands</a
+      >
+    </div>
+    <div class="space-y-5 border-b pb-6">
+      <a routerLinkActive="text-green-600" routerLink="/wishlist">
+        <div class="flex items-center gap-4 cursor-pointer group mb-3">
+          <div
+            routerLinkActive="text-green-600"
+            routerLink="/wishlist"
+            class="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center group-hover:bg-red-100"
+          >
+            <i class="fa-regular fa-heart text-lg"></i>
+          </div>
+          <span class="font-medium text-gray-700 group-hover:text-green-600">Wishlist</span>
+        </div>
+      </a>
+      <a routerLinkActive="text-green-600" routerLink="/cart">
+        <div class="flex items-center gap-4 cursor-pointer group">
+          <div
+            class="w-10 h-10 rounded-full bg-green-50 text-green-500 flex items-center justify-center group-hover:bg-green-100"
+          >
+            <i class="fa-solid fa-cart-shopping text-lg"></i>
+          </div>
+          <span class="font-medium text-gray-700 group-hover:text-green-600">Cart</span>
+        </div>
+      </a>
+    </div>
+    @if (!isLoggedIn()) {
+      <div class="flex gap-3">
+        <button
+          routerLinkActive="text-green-600"
+          routerLink="/login"
+          class="flex-1 bg-[#198754] text-white py-3 rounded-xl font-bold hover:bg-green-700"
+        >
+          Sign In
+        </button>
+        <button
+          routerLinkActive="text-green-600"
+          routerLink="/register"
+          class="flex-1 border-2 border-[#198754] text-[#198754] py-3 rounded-xl font-bold hover:bg-green-50"
+        >
+          Sign Up
+        </button>
+      </div>
+    } @else {
+      <div class="flex gap-3">
+        <button
+          (click)="signOut()"
+          routerLinkActive="text-green-600"
+          routerLink="/login"
+          class="flex-1 bg-red-300 text-white py-3 rounded-xl font-bold hover:bg-red-700"
+        >
+          Sign Out
+        </button>
+      </div>
+    }
+    <div
+      routerLinkActive="text-green-600"
+      routerLink="/support"
+      class="cursor-pointer bg-gray-50 rounded-2xl p-4 flex items-center gap-4 border border-gray-100"
+    >
+      <div
+        class="w-12 h-12 rounded-full bg-[#e9f7ef] text-[#198754] flex items-center justify-center text-xl">
+        <i class="fa-solid fa-headset"></i>
+      </div>
+      <div>
+        <p class="text-sm font-bold text-gray-800">Need Help?</p>
+        <p class="text-sm text-[#198754] font-medium">Contact Support</p>
+      </div>
+    </div>
+  </div>
+</div>

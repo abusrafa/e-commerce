@@ -1,0 +1,289 @@
+<div class="min-h-screen mx-auto max-w-7xl bg-gray-100">
+  <div class="bg-white border-b border-gray-100">
+    <div class="container mx-auto px-4 py-6">
+      <nav class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+        <a class="hover:text-[#19a44a] transition-colors" href="/">Home</a>
+        <span class="text-gray-300">/</span>
+        <span class="text-gray-900 font-medium">Search Results</span>
+      </nav>
+
+<form class="max-w-2xl">
+  <div class="relative mb-2">
+    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+    <input 
+      [(ngModel)]="searchTerm"
+      name="search" 
+      placeholder="Search for products..." 
+      class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:border-[#19a44a] focus:ring-2 focus:ring-[#19a44a]/20 outline-none transition-all text-lg" 
+      type="text">
+  </div>
+
+  @if (searchTerm()) {
+    <div class="mb-2">
+      <h2 class="text-2xl font-bold text-[#02111d] mb-1">
+        Search Results for "{{ searchTerm() }}"
+      </h2>
+      <p class="text-gray-500 text-[14px]">
+        We found {{ filteredCount() }} products for you
+      </p>
+    </div>
+  }
+</form>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+
+
+<aside class="hidden lg:block lg:col-span-3 shrink-0">
+  <div class="bg-white rounded-2xl border border-gray-100 p-6 sticky top-24 shadow-sm">
+    <div class="space-y-6">
+      
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-gray-900 uppercase text-xs tracking-wider">Categories</h3>
+          @if (selectedCategories().length > 0) {
+            <span class="text-xs font-medium text-[#19a44a] bg-green-50 px-2 py-0.5 rounded-full animate-fade-in">
+              {{ selectedCategories().length }} selected
+            </span>
+          }
+        </div>
+        
+        <div class="space-y-2 max-h-52 overflow-y-auto custom-scrollbar">
+          @for (category of categoriesList(); track category._id) {
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input 
+              type="checkbox" 
+              [checked]="selectedCategories().includes(category.name)"
+              (change)="toggleSelection('cat', category.name)"
+              class="w-4 h-4 border-gray-300 text-[#19a44a] focus:ring-[#19a44a]">
+            <span class="text-sm text-gray-600 group-hover:text-[#19a44a] transition-colors">{{category.name}}</span>
+          </label>
+          }
+        </div>
+      </div>
+
+      <hr class="border-gray-100">
+
+      <div class="w-62.5 p-2 bg-white">
+        <h3 class="text-lg font-bold text-gray-900 mb-2">Price Range</h3>
+        <div class="grid grid-cols-2 gap-4 mb-5">
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[13px] text-gray-500 font-medium">Min (EGP)</label>
+            <input 
+              [(ngModel)]="minPrice"
+              type="number" 
+              min="0" 
+              oninput="if(this.value < 0) this.value = 0;" 
+              placeholder="0"
+              class="w-full px-2 py-2 rounded-[10px] border border-gray-200 text-gray-400 text-sm outline-none focus:border-[#19a44a] transition-all">
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label class="text-[13px] text-gray-500 font-medium">Max (EGP)</label>
+            <input 
+              [(ngModel)]="maxPrice"
+              type="number" 
+              min="0" 
+              oninput="if(this.value < 0) this.value = 0;" 
+              placeholder="No limit"
+              class="w-full px-2 py-2 rounded-[10px] border border-gray-200 text-gray-400 text-sm outline-none focus:border-[#19a44a] transition-all">
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <button (click)="maxPrice.set(500)" class="px-4 py-2 rounded-[10px] bg-[#e9ecef] text-[#495057] text-[13px] font-medium hover:bg-[#19a44a] hover:text-white transition-all">
+            Under 500
+          </button>
+          <button (click)="maxPrice.set(1000)" class="px-4 py-2 rounded-[10px] bg-[#e9ecef] text-[#495057] text-[13px] font-medium hover:bg-[#19a44a] hover:text-white transition-all">
+            Under 1K
+          </button>
+          <button (click)="maxPrice.set(5000)" class="px-4 py-2 rounded-[10px] bg-[#e9ecef] text-[#495057] text-[13px] font-medium hover:bg-[#19a44a] hover:text-white transition-all">
+            Under 5K
+          </button>
+          <button (click)="maxPrice.set(10000)" class="px-4 py-2 rounded-[10px] bg-[#e9ecef] text-[#495057] text-[13px] font-medium hover:bg-[#19a44a] hover:text-white transition-all">
+            Under 10K
+          </button>
+        </div>
+      </div>
+      <hr class="border-gray-100">
+
+      <div>
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="font-bold text-gray-900 uppercase text-xs tracking-wider">Brands</h3>
+          @if (selectedBrands().length > 0) {
+            <span class="text-xs font-medium text-[#19a44a] bg-green-50 px-2 py-0.5 rounded-full animate-fade-in">
+              {{ selectedBrands().length }} selected
+            </span>
+          }
+        </div>
+
+        <div class="space-y-2 max-h-52 overflow-y-auto custom-scrollbar">
+          @for (brand of brandsList(); track brand._id) {
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input 
+              type="checkbox" 
+              [checked]="selectedBrands().includes(brand.name)"
+              (change)="toggleSelection('brand', brand.name)"
+              class="w-4 h-4 border-gray-300 text-[#19a44a] focus:ring-[#19a44a]">
+            <span class="text-sm text-gray-600 group-hover:text-[#19a44a] transition-colors">{{brand.name}}</span>
+          </label>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+</aside>
+
+
+        <main class="lg:col-span-9 min-w-0">
+    <div class="flex items-center justify-between mb-6 gap-4 flex-wrap bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+        <div class="flex items-center gap-4">
+            <button (click)="toggleFilter()" class="lg:hidden flex items-center gap-2 px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50">
+                <i class="fa-solid fa-sliders text-[#19a44a]"></i> Filters
+            </button>
+            <div class="flex items-center gap-1 bg-gray-50 rounded-[10px] p-2 border border-gray-100 w-fit">
+                <button (click)="isGrid = true" [class]="isGrid ? 'bg-[#19a44a] text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'" class="p-1 rounded-md transition-all">
+                    <i class="fa-solid fa-grid-vertical"></i>
+                </button>
+                <button (click)="isGrid = false" [class]="!isGrid ? 'bg-[#19a44a] text-white shadow-sm' : 'text-gray-400 hover:text-gray-600'" class="p-1 rounded-md transition-all">
+                    <i class="fa-solid fa-list"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-500 font-medium">Sort by:</span>
+            <select (change)="onSortChange($any($event.target).value)" class="px-4 py-2 rounded-lg border border-gray-200 text-sm focus:border-[#19a44a] outline-none bg-white cursor-pointer shadow-sm">
+                <option value="relevance">Relevance</option>
+                <option value="priceLowHigh">Price: Low to High</option>
+                <option value="priceHighLow">Price: High to Low</option>
+                <option value="ratingHighLow">Rating: High to Low</option>
+                <option value="nameAZ">Name: A to Z</option>
+                <option value="nameZA">Name: Z to A</option>
+            </select>
+        </div>
+    </div>
+
+
+@if (searchTerm() || selectedCategories().length > 0 || selectedBrands().length > 0 || minPrice() || maxPrice()) {
+  <div class="flex items-center gap-4 mb-6 animate-fade-in flex-wrap">
+    <div class="flex items-center gap-2 text-sm text-gray-500">
+      <i class="fa-solid fa-filter text-xs"></i>
+      <span>Active:</span>
+    </div>
+
+    <div class="flex flex-wrap gap-2 items-center">
+      @if (searchTerm()) {
+        <div class="flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-full border border-gray-200">
+          <span class="text-xs font-bold text-gray-700">"{{ searchTerm() }}"</span>
+          <button (click)="searchTerm.set('')" class="text-gray-400 hover:text-red-500">
+            <i class="fa-solid fa-xmark text-2xs"></i>
+          </button>
+        </div>
+      }
+
+      @for (cat of selectedCategories(); track cat) {
+        <div class="flex items-center gap-2 px-3 py-1 bg-[#e8f5e9] rounded-full border border-[#c8e6c9]">
+          <span class="text-xs font-bold text-[#2e7d32]">{{ cat }}</span>
+          <button (click)="toggleSelection('cat', cat)" class="text-[#2e7d32] hover:text-red-500">
+            <i class="fa-solid fa-xmark text-2xs"></i>
+          </button>
+        </div>
+      }
+
+      @for (brand of selectedBrands(); track brand) {
+        <div class="flex items-center gap-2 px-3 py-1 bg-[#f3e5f5] rounded-full border border-[#e1bee7]">
+          <span class="text-xs font-bold text-[#7b1fa2]">{{ brand }}</span>
+          <button (click)="toggleSelection('brand', brand)" class="text-[#7b1fa2] hover:text-red-500">
+            <i class="fa-solid fa-xmark text-2xs"></i>
+          </button>
+        </div>
+      }
+
+      @if (minPrice() || maxPrice()) {
+        <div class="flex items-center gap-2 px-3 py-1 bg-[#fff8e1] rounded-full border border-[#ffecb3]">
+          <span class="text-xs font-bold text-[#f57f17]">
+            {{ minPrice() || 0 }} - {{ maxPrice() || '∞' }} EGP
+          </span>
+          <button (click)="minPrice.set(null); maxPrice.set(null)" class="text-[#f57f17] hover:text-red-500">
+            <i class="fa-solid fa-xmark text-2xs"></i>
+          </button>
+        </div>
+      }
+
+      <button 
+        (click)="clearAllFilters()" 
+        class="text-xs text-[#0056b3] font-medium hover:underline ml-2">
+        Clear all
+      </button>
+    </div>
+  </div>
+}
+
+    @if (filteredProducts().length > 0) {
+        <div [class]="isGrid ? 'grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-6' : 'flex flex-col gap-4'">
+            
+            @for (product of filteredProducts(); track product._id) {
+                <div [class]="isGrid ? 'flex-col h-full' : 'flex-row items-center gap-6'" class="bg-white border border-gray-100 rounded-2xl p-4 relative group hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500 flex">
+                    <div [class]="isGrid ? 'absolute top-4 right-4 flex-col opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0' : 'relative flex-row opacity-100 translate-x-0'" class="flex gap-2 transition-all duration-300 z-10">
+                        <button class="w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:scale-110 transition-all"><i class="fa-regular fa-heart"></i></button>
+                        <button class="w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center text-gray-400 hover:text-[#19a44a] hover:scale-110 transition-all"><i class="fa-solid fa-arrows-rotate"></i></button>
+                    </div>
+
+                    <div [class]="isGrid ? 'h-30 mb-4' : 'h-32 w-32 sm:h-40 sm:w-40 shrink-0'" class="overflow-hidden rounded-xl bg-transparent flex items-center justify-center">
+                        <img [src]="product.imageCover" class="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700" [alt]="product.title">
+                    </div>
+
+                    <div class="flex flex-col flex-1">
+                        <span class="text-2xs text-[#19a44a] font-bold uppercase mb-1 tracking-tight">{{ product.category.name }}</span>
+                        <h3 [class]="isGrid ? 'h-10 mb-2' : 'mb-1 text-base'" class="text-sm font-semibold text-gray-800 line-clamp-2 leading-tight hover:text-[#19a44a] cursor-pointer">{{ product.title }}</h3>
+                        @if (!isGrid) { <p class="text-xs text-gray-500 mb-4 line-clamp-2 hidden sm:block">{{ product.description }}</p> }
+                        <div class="flex items-center gap-1 mb-4">
+                            <div class="flex text-yellow-400 text-2xs">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke text-gray-200"></i>
+                            </div>
+                            <span class="text-[11px] text-gray-400">({{ product.ratingsAverage }})</span>
+                        </div>
+                        <div class="mt-auto flex justify-between items-center pt-3 border-t border-gray-50">
+                            <div class="flex flex-col">
+                                <span class="font-bold text-gray-900 text-base">{{ product.price }} EGP</span>
+                                @if(product.priceAfterDiscount) { <span class="text-2xs text-gray-300 line-through">{{ product.priceAfterDiscount }} EGP</span> }
+                            </div>
+                            <button class="h-10 bg-[#19a44a] text-white rounded-xl flex items-center justify-center hover:bg-green-700 shadow-lg shadow-green-100 active:scale-95 transition-all" [class]="isGrid ? 'w-10' : 'px-4 gap-2'">
+                                <i class="fa-solid fa-plus"></i>
+                                @if (!isGrid) { <span class="text-xs font-bold">Add to cart</span> }
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+    } 
+    @else {
+        <div class="flex flex-col items-center justify-center py-20 text-center">
+            <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                <i class="fa-solid fa-magnifying-glass text-4xl text-gray-300"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-[#02111d] mb-2">No Products Found</h2>
+            <p class="text-gray-500 mb-8 max-w-sm">Try adjusting your search or filters to find what you're looking for.</p>
+            <button (click)="clearAllFilters()" class="px-8 py-3 bg-[#19a44a] text-white rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100">
+                Clear Filters
+            </button>
+        </div>
+    }
+</main>
+
+      </div>
+    </div>
+</div>
+
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

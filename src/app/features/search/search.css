@@ -1,0 +1,34 @@
+/* تخصيص السكرول بار الجانبي كما في الصورة */
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+    &:hover {
+      background: #19a44a;
+    }
+  }
+}
+
+/* لمنع النص من تجاوز السطرين في اسم المنتج */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* تحسين شكل الصور البيضاء */
+img {
+  mix-blend-mode: multiply;
+}
+
+/* إخفاء السكرول بار الخاص بالصفحة عند فتح الفلتر في الموبايل (اختياري) */
+:host-context(body.filter-open) {
+  overflow: hidden;
+}

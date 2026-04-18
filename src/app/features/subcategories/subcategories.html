@@ -1,0 +1,70 @@
+<div class="p-4 md:p-8 bg-white min-h-screen">
+<button
+  routerLink="/categories"
+  type="button"
+  class="flex items-center text-gray-500 text-sm mb-6 hover:text-green-600 group transition-colors font-medium"
+>
+  <i class="fa-solid fa-arrow-left mr-2 text-xs leading-none flex items-center justify-center"></i>
+  
+  <span class="leading-none">Back to Categories</span>
+</button>
+
+@if(subcategoryDetails().length > 0){
+  <div class="mb-6 max-w-7xl mx-auto">
+    <h1 class="text-xl font-bold text-gray-900">{{subcategoryDetails().length}} Subcategories in {{categoryName()}}</h1>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-w-7xl mx-auto">
+    
+    @for (item of subcategoryDetails(); track item._id) {
+
+    <div class="group bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer min-h-37.5 flex flex-col justify-between">
+      <div>
+        <div class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center mb-4 text-2xl">
+          <i class="fa-solid fa-folder-open text-green-600 "></i>
+        </div>
+        <h3 class="font-bold text-gray-800 hover:text-green-600">{{item.name}}</h3>
+      </div>
+
+      <div 
+       [routerLink]="['/Products/subcategory', item._id]"
+      class="opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="text-xs text-green-600 flex items-center gap-1 leading-none font-medium">
+          Browse Products
+          <i class="fa-solid fa-arrow-right text-2xs flex items-center justify-center translate-y-[0.5px]"></i>
+        </span>
+      </div>
+    </div>
+    }
+  </div>
+}@else {
+<div class="flex flex-col items-center justify-center py-20 px-4 text-center">
+  <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+    <i class="fa-solid fa-folder-open text-gray-400 text-3xl"></i>
+  </div>
+
+  <h2 class="text-xl font-bold text-[#001e2b] mb-2">
+    No Subcategories Found
+  </h2>
+
+  <p class="text-gray-500 text-sm mb-8 max-w-sm">
+    This category doesn't have any subcategories yet.
+  </p>
+
+  <button
+    type="button"
+    routerLink="/Products"
+    class="bg-[#198754] hover:bg-green-700 text-white font-bold py-3 px-8 rounded-xl transition-all active:scale-95 shadow-lg shadow-green-100"
+  >
+    View All Products in {{categoryName()}}
+  </button>
+</div>
+
+}
+
+
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

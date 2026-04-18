@@ -1,0 +1,105 @@
+<div class="p-4 md:p-6 min-h-screen bg-transparent">
+  
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h2 class="text-2xl font-bold text-[#001e2b]">My Addresses</h2>
+      <p class="text-gray-500 text-sm mt-1">Manage your saved delivery addresses</p>
+    </div>
+    
+    <button (click)="toggleModal()" 
+            class="bg-[#198754] hover:bg-[#157347] text-white px-5 py-2.5 rounded-xl font-medium flex items-center gap-2 transition-all shadow-lg shadow-green-100 active:scale-95">
+      <i class="fa-solid fa-plus text-sm"></i>
+      Add Address
+    </button>
+  </div>
+
+  @if (allAddresses().length > 0) {
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      @for (addr of allAddresses(); track addr.id) {
+        <div class="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm hover:shadow-md transition-all relative group">
+          <div class="flex items-start gap-4">
+            <div class="w-12 h-12 bg-[#f2fcf6] rounded-xl flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-location-dot text-[#198754] text-xl"></i>
+            </div>
+
+            <div class="grow">
+              <h3 class="font-bold text-[#001e2b] text-lg">{{ addr.name }}</h3>
+              <p class="text-gray-500 text-sm mb-4">{{ addr.details }}</p>
+              
+              <div class="flex flex-wrap gap-4 text-gray-500 text-sm">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-2xs"></i> {{ addr.phone }}</span>
+                <span class="flex items-center gap-2"><i class="fa-solid fa-city text-2xs"></i> {{ addr.city }}</span>
+              </div>
+            </div>
+
+            <div class="flex gap-2">
+              <button class="w-9 h-9 bg-gray-50 hover:bg-gray-100 text-gray-400 rounded-lg transition-colors">
+                <i class="fa-solid fa-pen text-xs"></i>
+              </button>
+              <button (click)="deleteAddress(addr.id)" class="w-9 h-9 bg-gray-50 hover:bg-red-50 text-gray-400 hover:text-red-500 rounded-lg transition-colors">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } 
+
+  @else {
+    <div class="bg-white border border-gray-100 rounded-4xl py-20 flex flex-col items-center justify-center text-center">
+      <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+        <i class="fa-solid fa-location-dot text-gray-300 text-3xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-[#001e2b] mb-2">No Addresses Yet</h3>
+      <p class="text-gray-400 max-w-xs mb-8">Add your first delivery address to make checkout faster and easier.</p>
+      <button (click)="toggleModal()" class="bg-[#198754] text-white px-8 py-3 rounded-xl font-medium shadow-lg shadow-green-100">
+        + Add Your First Address
+      </button>
+    </div>
+  }
+
+  @if (isModalOpen()) {
+    <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-999 flex items-center justify-center p-4">
+      <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg p-8 animate-in fade-in zoom-in duration-300">
+        
+        <div class="flex justify-between items-center mb-8">
+          <h3 class="text-2xl font-bold text-[#001e2b]">Add New Address</h3>
+          <button (click)="toggleModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <form [formGroup]="addressForm" (ngSubmit)="addAddress()" class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Address Name</label>
+            <input formControlName="name" type="text" placeholder="e.g. Home, Office" class="w-full p-3 border border-gray-200 rounded-xl focus:border-[#198754] outline-none transition-all">
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Full Address</label>
+            <textarea formControlName="details" rows="3" placeholder="Street, building, apartment..." class="w-full p-3 border border-gray-200 rounded-xl focus:border-[#198754] outline-none transition-all resize-none"></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              <input formControlName="phone" type="text" placeholder="01xxxxxxxxx" class="w-full p-3 border border-gray-200 rounded-xl focus:border-[#198754] outline-none transition-all">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+              <input formControlName="city" type="text" placeholder="Cairo" class="w-full p-3 border border-gray-200 rounded-xl focus:border-[#198754] outline-none transition-all">
+            </div>
+          </div>
+
+          <div class="flex gap-4 pt-4">
+            <button type="button" (click)="toggleModal()" class="flex-1 py-3 bg-gray-50 text-gray-600 rounded-xl font-bold hover:bg-gray-100 transition-all">Cancel</button>
+            <button type="submit" [disabled]="addressForm.invalid" class="flex-1 py-3 bg-[#198754] text-white rounded-xl font-bold shadow-lg shadow-green-100 disabled:opacity-50">Add Address</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

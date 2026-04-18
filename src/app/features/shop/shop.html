@@ -1,0 +1,239 @@
+<header class="bg-[#22c55e] py-10 px-4 mb-8">
+  <div class="max-w-325 mx-auto">
+    @if (brandId()) {
+      <nav class="flex items-center gap-2 text-white/80 text-[14px] mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a routerLink="/brands" class="hover:underline">Brands</a>
+        <span>/</span>
+        <span class="text-white">{{ brandDetails()?.data?.name}}</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <img
+            [alt]="brandDetails()?.data?.name"
+            [src]="brandDetails()?.data?.image"
+            class="w-10 h-10 object-contain transition-transform duration-500"
+          />
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">
+            {{ brandDetails()?.data?.name }}
+          </h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Shop {{ brandDetails()?.data?.name }} products
+          </p>
+        </div>
+      </div>
+
+    } 
+        @else if (subCategoryId()) {
+      <nav class="flex items-center gap-2 text-white/80 text-[14px] mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a routerLink="/categories" class="hover:underline">Categories</a>
+        <span>/</span>
+         <a [routerLink]="['/categories',categoryId()]" class="hover:underline">{{ categoryDetails()?.data?.name}}</a>
+        <span>/</span>
+        <span class="text-white">{{ subcategoryDetails()?.data?.name}}</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <img
+            [alt]="subcategoryDetails()?.data?.name"
+            [src]="subcategoryDetails()?.data?.image"
+            class="w-10 h-10 object-contain transition-transform duration-500"
+          />
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">
+            {{ subcategoryDetails()?.data?.name }}
+          </h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Shop {{ subcategoryDetails()?.data?.name }} products
+          </p>
+        </div>
+      </div>
+
+    }
+
+         @else if (categoryId()) {
+      <nav class="flex items-center gap-2 text-white/80 text-[14px] mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a routerLink="/categories" class="hover:underline">Categories</a>
+        <span>/</span>
+        <span class="text-white">{{ categoryDetails()?.data?.name}}</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <img
+            [alt]="categoryDetails()?.data?.name"
+            [src]="categoryDetails()?.data?.image"
+            class="w-10 h-10 object-contain transition-transform duration-500"
+          />
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">
+            {{ categoryDetails()?.data?.name }}
+          </h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Shop {{ categoryDetails()?.data?.name }} products
+          </p>
+        </div>
+      </div>
+
+    }
+    
+    
+    @else {
+
+      <nav class="flex items-center gap-2 text-white/80 text-[14px] mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-white">All Products</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <i class="fa-solid fa-box-open text-white text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">All Products</h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Explore our complete product collection
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</header>
+
+
+<div class="max-w-325 mx-auto px-4">
+  @if (brandId()) {
+    <div class="flex items-center gap-3 mb-6 flex-wrap">
+      <span class="flex items-center gap-2 text-sm text-slate-600">
+        <i class="fa-solid fa-filter text-slate-500"></i>
+        Active Filters:
+      </span>
+
+      <a
+        [routerLink]="['/Products','']"
+        class="group flex items-center gap-2 bg-[#f3e8ff] text-[#9333ea] px-2 py-1 rounded-full shadow-sm hover:bg-[#ebe0ff] transition-all border border-purple-100"
+      >
+        <i class="fa-solid fa-tag text-xs"></i>
+
+        <span class="text-sm tracking-wide">
+          {{ brandDetails()?.data?.name }}
+        </span>
+
+        <span class="group-hover:text-red-500 transition-colors ml-1 flex items-center">
+          <i class="fa-solid fa-xmark text-[14px]"></i>
+        </span>
+      </a>
+
+      <a
+       [routerLink]="['/Products','']"
+        class="text-slate-500 text-[15px] font-medium underline hover:text-purple-600 decoration-1 underline-offset-4"
+      >
+        Clear all
+      </a>
+    </div>
+  }
+
+   @if (categoryId()&& !subCategoryId()) {
+    <div class="flex items-center gap-3 mb-6 flex-wrap">
+      <span class="flex items-center gap-2 text-sm text-slate-600">
+        <i class="fa-solid fa-filter text-slate-500"></i>
+        Active Filters:
+      </span>
+
+      <a
+        [routerLink]="['/Products','']"
+        class="group flex items-center gap-2 bg-green-100 text-green-600 px-2 py-1 rounded-full shadow-sm hover:bg-green-200 transition-all border border-green-100"
+      >
+        <i class="fa-solid fa-layer-group text-xs"></i>
+
+        <span class="text-sm tracking-wide">
+          {{ categoryDetails()?.data?.name }}
+        </span>
+
+        <span class="group-hover:text-red-500 transition-colors ml-1 flex items-center">
+          <i class="fa-solid fa-xmark text-[14px]"></i>
+        </span>
+      </a>
+
+      <a
+       [routerLink]="['/Products','']"
+        class="text-slate-500 text-[15px] font-medium underline hover:text-green-600 decoration-1 underline-offset-4"
+      >
+        Clear all
+      </a>
+    </div>
+  }
+
+  @if (subCategoryId()) {
+    <div class="flex items-center gap-3 mb-6 flex-wrap">
+      <span class="flex items-center gap-2 text-sm text-slate-600">
+        <i class="fa-solid fa-filter text-slate-500"></i>
+        Active Filters:
+      </span>
+
+      <a
+        [routerLink]="['/Products','']"
+        class="group flex items-center gap-2 bg-green-100 text-green-600 px-2 py-1 rounded-full shadow-sm hover:bg-green-200 transition-all border border-green-100"
+      >
+        <i class="fa-solid fa-layer-group text-xs"></i>
+
+        <span class="text-sm tracking-wide">
+          {{ subcategoryDetails()?.data?.name }}
+        </span>
+
+        <span class="group-hover:text-red-500 transition-colors ml-1 flex items-center">
+          <i class="fa-solid fa-xmark text-[14px]"></i>
+        </span>
+      </a>
+
+      <a
+       [routerLink]="['/Products','']"
+        class="text-slate-500 text-[15px] font-medium underline hover:text-green-600 decoration-1 underline-offset-4"
+      >
+        Clear all
+      </a>
+    </div>
+  }
+
+  <div class="mb-6">
+    <p class="text-gray-500 text-[13px]">
+      Showing {{ productsList().length }} products
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    @for (product of productsList(); track product._id) {
+      <app-product-card [product]="product" />
+    }@empty {
+      <div class="col-span-full text-center py-20">
+        <i class="fa-solid fa-box-open text-4xl text-gray-200 mb-4 block"></i>
+        <p class="text-gray-400">No products found</p>
+        <p class="text-gray-400">No products match your current filters.</p>
+        <button
+        type="button"
+        [routerLink]="['/Products','']"
+        class="cursor-pointer px-3 py-2 m-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition-colors">View All Products</button>
+ 
+      </div>
+    }
+  </div>
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

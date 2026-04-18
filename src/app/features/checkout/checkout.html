@@ -1,0 +1,250 @@
+<div class="min-h-screen bg-gray-50 pb-12">
+  <div class="max-w-7xl mx-auto px-4 py-6">
+    <nav class="flex items-center gap-2 text-xs text-gray-400 mb-4">
+      <a routerLink="/" class="hover:text-green-600">Home</a> <span>/</span>
+      <a routerLink="/cart" class="hover:text-green-600">Cart</a> <span>/</span>
+      <span class="text-gray-900">Checkout</span>
+    </nav>
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-9 h-9 bg-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-100">
+          <i class="fa-solid fa-receipt text-white text-xl"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font text-gray-900">Complete Your Order</h1>
+          <p class="text-sm text-gray-500">Review your items and complete your purchase</p>
+        </div>
+      </div>
+      <a href="#" class="text-green-600 font-bold flex items-center gap-2 hover:underline">
+        <i class="fa-solid fa-arrow-left"></i> Back to Cart
+      </a>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 py-8">
+  <form [formGroup]="checkOut" (ngSubmit)="submitForm()" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <div class="lg:col-span-8 space-y-6">
+      
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-linear-to-r from-green-600 to-green-700 p-5 text-white">
+          <h3 class="font-bold flex items-center gap-2 text-lg">
+            <i class="fa-solid fa-house"></i> Shipping Address
+          </h3>
+          <p class="text-sm opacity-90 mt-1">Where should we deliver your order?</p>
+        </div>
+        
+        <div class="p-6 space-y-6">
+          <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl flex items-start gap-3">
+            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+               <i class="fa-solid fa-circle-info text-blue-500 text-sm"></i>
+            </div>
+            <div>
+              <p class="text-blue-700 font-bold text-sm">Delivery Information</p>
+              <p class="text-blue-600 text-xs">Please ensure your address is accurate for smooth delivery</p>
+            </div>
+          </div>
+             
+            <!-- shippingAddress -->
+
+          <div formControlName="shippingAddress" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-sm font-bold text-gray-700">City <span class="text-red-500">*</span></label>
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                  <i class="fa-solid fa-city text-gray-500 text-sm"></i>
+                </div>
+                <input 
+                formControlName="city"
+                type="text" placeholder="e.g. Cairo, Alexandria" class="w-full pl-13 pr-4 py-3 bg-white border-2 border-gray-100 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-50/50 outline-none transition-all">
+              </div>
+            </div>
+
+            <div class="space-y-2 md:col-span-2">
+              <label class="text-sm font-bold text-gray-700">Street Address <span class="text-red-500">*</span></label>
+              <div class="relative">
+                <div class="absolute left-3 top-4 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                   <i class="fa-solid fa-location-dot text-gray-500 text-sm"></i>
+                </div>
+                <textarea
+                formControlName="details"
+                rows="3" placeholder="Street name, building number, floor..." class="w-full pl-13 pr-4 py-3 bg-white border-2 border-gray-100 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-50/50 outline-none transition-all resize-none"></textarea>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-sm font-bold text-gray-700">Phone Number <span class="text-red-500">*</span></label>
+              <div class="relative">
+                <div class="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
+                   <i class="fa-solid fa-phone text-gray-500 text-sm"></i>
+                </div>
+                <input 
+                formControlName="phone"
+                type="phone" placeholder="01xxxxxxxxx" class="w-full pl-13 pr-4 py-3 bg-white border-2 border-gray-100 rounded-xl focus:border-green-500 focus:ring-4 focus:ring-green-50/50 outline-none transition-all">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-2xs text-gray-400 font-bold hidden sm:block">EGYPT ONLY</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-linear-to-r from-green-600 to-green-700 p-5 text-white">
+          <h3 class="font-bold flex items-center gap-2 text-lg">
+            <i class="fa-solid fa-wallet"></i> Payment Method
+          </h3>
+          <p class="text-sm opacity-90 mt-1">Choose how you'd like to pay</p>
+        </div>
+        
+        <div class="p-6 not-visited:space-y-4">
+  <label class="flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all group"
+    [class.border-green-500]="selectedPayment() === 'cash'"
+    [class.bg-green-50/30]="selectedPayment() === 'cash'"
+    [class.border-gray-100]="selectedPayment() !== 'cash'">
+    
+    <input type="radio" name="paymentMethod" value="cash" class="hidden" 
+      [checked]="selectedPayment() === 'cash'"
+      (change)="selectPayment('cash')">
+    
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center transition-all"
+        [class.bg-green-600]="selectedPayment() === 'cash'"
+        [class.text-white]="selectedPayment() === 'cash'"
+        [class.bg-gray-100]="selectedPayment() !== 'cash'"
+        [class.text-gray-400]="selectedPayment() !== 'cash'">
+        <i class="fa-solid fa-money-bill text-xl"></i>
+      </div>
+      <div>
+        <p class="font-bold text-gray-900">Cash on Delivery</p>
+        <p class="text-sm text-gray-500">Pay when your order arrives</p>
+      </div>
+    </div>
+    
+    <div class="w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all"
+      [class.bg-green-600]="selectedPayment() === 'cash'"
+      [class.border-green-600]="selectedPayment() === 'cash'"
+      [class.border-gray-200]="selectedPayment() !== 'cash'">
+      @if (selectedPayment() === 'cash') { 
+        <i class="fa-solid fa-check text-white text-xs"></i> 
+      }
+    </div>
+  </label>
+
+  <label class="flex items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all group"
+    [class.border-green-500]="selectedPayment() === 'visa'"
+    [class.bg-green-50/30]="selectedPayment() === 'visa'"
+    [class.border-gray-100]="selectedPayment() !== 'visa'">
+    
+    <input type="radio" name="paymentMethod" value="visa" class="hidden" 
+      [checked]="selectedPayment() === 'visa'"
+      (change)="selectPayment('visa')">
+    
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center transition-all"
+        [class.bg-green-600]="selectedPayment() === 'visa'"
+        [class.text-white]="selectedPayment() === 'visa'"
+        [class.bg-gray-100]="selectedPayment() !== 'visa'"
+        [class.text-gray-400]="selectedPayment() !== 'visa'">
+        <i class="fa-solid fa-credit-card text-xl"></i>
+      </div>
+      <div>
+        <p class="font-bold text-gray-900">Pay visa</p>
+        <p class="text-sm text-gray-500">Secure payment via Stripe</p>
+      </div>
+    </div>
+
+    <div class="w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all"
+      [class.bg-green-600]="selectedPayment() === 'visa'"
+      [class.border-green-600]="selectedPayment() === 'visa'"
+      [class.border-gray-200]="selectedPayment() !== 'visa'">
+      @if (selectedPayment() === 'visa') { 
+        <i class="fa-solid fa-check text-white text-xs"></i> 
+      }
+    </div>
+  </label>
+</div>
+        
+      </div>
+    </div>
+
+    <div class="lg:col-span-4 sticky top-6">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div class="bg-linear-to-r from-green-600 to-green-700 p-5 text-white">
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-bag-shopping"></i> Order Summary
+          </h2>
+          <p class="text-sm opacity-90 mt-0.5">{{cartDetails().products.length}} items</p>
+        </div>
+
+        <div class="p-6">
+          <div class="max-h-60 overflow-y-auto mb-6 pr-2 space-y-4 custom-scrollbar">
+            @for (item of cartDetails().products; track item.product._id) {
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100">
+              <div class="w-14 h-14 rounded-lg bg-white p-1 border border-gray-100 shrink-0">
+                <img [src]="item.product.imageCover" class="w-full h-full object-contain" [alt]="item.product.title">
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-gray-800 truncate">{{item.product.title}}</p>
+                <p class="text-xs text-gray-500">{{item.count}} × {{item.price}} EGP</p>
+              </div>
+              <p class="text-sm font-bold text-gray-900">{{item.count*item.price | number:'1.0-0'}}</p>
+            </div>
+            }
+          </div>
+
+          <div class="space-y-3 pt-4 border-t border-gray-100">
+            <div class="flex justify-between text-gray-600 font-medium">
+              <span>Subtotal</span>
+              <span class="text-gray-900">{{cartDetails().totalCartPrice |number:'1.0-0'}} EGP</span>
+            </div>
+            <div class="flex justify-between text-gray-600 font-medium">
+              <span class="flex items-center gap-1.5"><i class="fa-solid fa-truck text-xs text-gray-400"></i> Shipping</span>
+              <span class="text-green-600 font-bold">FREE</span>
+            </div>
+            <hr class="border-gray-50 my-2">
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-black text-gray-900">Total</span>
+              <div class="text-right">
+                <span class="text-2xl font-black text-green-600">{{cartDetails().totalCartPrice | number:'1.0-0'}}</span>
+                <span class="text-xs font-bold text-gray-400 ml-1 uppercase">EGP</span>
+              </div>
+            </div>
+          </div>
+
+          <button 
+          type="submit"
+           class="w-full mt-8 bg-linear-to-r from-green-600 to-green-700 text-white py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-green-800 shadow-lg shadow-green-600/20 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+            @if(selectedPayment() === 'cash'){
+                <i class="fa-solid fa-box text-sm"></i> Place Order
+            }@else {
+                 <i class="fa-solid fa-shield-halved text-sm"></i> Proceed to Payment
+            }
+          </button>
+    
+          <div class="flex items-center justify-center gap-4 mt-6 py-3 border-t border-gray-50">
+            <div class="flex items-center gap-1.5 text-2xs text-gray-400 font-bold uppercase tracking-tight">
+              <i class="fa-solid fa-shield text-green-500"></i> Secure
+            </div>
+            <div class="w-px h-3 bg-gray-200"></div>
+            <div class="flex items-center gap-1.5 text-2xs text-gray-400 font-bold uppercase tracking-tight">
+              <i class="fa-solid fa-truck text-blue-500"></i> Fast
+            </div>
+            <div class="w-px h-3 bg-gray-200"></div>
+            <div class="flex items-center gap-1.5 text-2xs text-gray-400 font-bold uppercase tracking-tight">
+              <i class="fa-solid fa-rotate-left text-orange-500"></i> Returns
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+  
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

@@ -1,0 +1,108 @@
+        <div
+          class="group bg-white border border-gray-100 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-green-100 relative overflow-hidden"
+        >
+          @if (product.priceAfterDiscount && product.priceAfterDiscount < product.price) {
+            <div class="absolute left-4 top-4 z-20">
+              <span
+                class="bg-[#ff3838] text-white text-[12px] font-bold px-3 py-1 rounded-xs shadow-sm"
+              >
+                -{{
+                  Math.round(((product.price - product.priceAfterDiscount) / product.price) * 100)
+                }}%
+              </span>
+            </div>
+          }
+
+          <div class="absolute right-4 top-4 flex flex-col gap-2 z-20">
+
+            @if (isInWishlist(product._id || product.id)) {
+            <button
+            (click)="removeItemFromWishlist(product._id || product.id)"
+              type="button"
+              class="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center text-red-500 hover:text-red-600 hover:bg-red-50 transition-all border border-gray-50"
+            >
+            <i class="fa-solid fa-heart text-lg"></i>
+            </button>
+            }@else {
+              <button
+            (click)="addToWishlist(product)"
+              type="button"
+              class="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all border border-gray-50"
+            >
+              <i class="fa-regular fa-heart text-lg"></i>
+            </button>
+            }
+     
+            <button
+              class="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center text-gray-400 hover:text-[#198754] hover:bg-green-50 transition-all border border-gray-50"
+            >
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+            <button
+              [routerLink]="['/productDetails', product.id]"
+              class="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center text-gray-400 hover:text-[#198754] hover:bg-green-50 transition-all border border-gray-50"
+            >
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+
+          <div
+            class="relative mb-4 bg-white rounded-xl overflow-hidden aspect-square flex items-center justify-center"
+          >
+            <img
+              [src]="product.imageCover"
+              alt="{{ product.title }}"
+              class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <span class="text-[12px] text-gray-500 font-medium">{{ product.category.name }}</span>
+            <h3
+              class="font-bold text-[#001e2b] text-[15px] hover:text-[#198754] cursor-pointer transition-colors line-clamp-2 h-10"
+            >
+              {{ product.title }}
+            </h3>
+
+            <div class="flex items-center gap-1">
+              <div class="flex text-yellow-400 text-xs">
+                @for (star of [1, 2, 3, 4, 5]; track $index) {
+                  @if (product.ratingsAverage >= star) {
+                    <i class="fa-solid fa-star"></i>
+                  } @else if (product.ratingsAverage >= star - 0.5) {
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                  } @else {
+                    <i class="fa-regular fa-star text-gray-300"></i>
+                  }
+                }
+              </div>
+              <span class="text-[13px] text-gray-500 font-semibold">
+                {{ product.ratingsAverage }}
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <div class="flex flex-wrap items-center gap-2">
+                @if (product.priceAfterDiscount) {
+                  <span class="font-bold text-[#198754] text-lg"
+                    >{{ product.priceAfterDiscount }} EGP</span
+                  >
+                  <span class="text-gray-400 line-through text-sm">{{ product.price }} EGP</span>
+                } @else {
+                  <span class="font-bold text-[#198754] text-lg">{{ product.price }} EGP</span>
+                }
+              </div>
+
+              <button
+              (click)="addToCart(product)"
+              type="button"
+                class="w-10 h-10 bg-[#198754] text-white rounded-full flex items-center justify-center hover:bg-[#146c43] transition-transform active:scale-90 shadow-lg shadow-green-100"
+              >
+                <i class="fa-solid fa-plus text-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

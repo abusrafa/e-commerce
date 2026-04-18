@@ -1,0 +1,226 @@
+<section class="min-h-screen bg-gray-50 flex items-center justify-center py-10 px-1">
+  <div class="container flex flex-col lg:flex-row gap-8 items-start justify-center">
+    <div class="w-full lg:w-5/12 space-y-8">
+      <div>
+        <h1 class="text-4xl font-bold text-[#001e2b] mb-4">
+          Welcome to <span class="text-[#198754]">FreshCart</span>
+        </h1>
+        <p class="text-gray-500 text-lg leading-relaxed">
+          Join thousands of happy customers who enjoy fresh groceries delivered right to their
+          doorstep.
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 bg-[#e8f5e9] rounded-full flex items-center justify-center shrink-0 text-[#198754]"
+          >
+            <i class="fa-solid fa-star text-xl"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#001e2b]">Premium Quality</h4>
+            <p class="text-sm text-gray-400">
+              Premium quality products sourced from trusted suppliers.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 bg-[#e8f5e9] rounded-full flex items-center justify-center shrink-0 text-[#198754]"
+          >
+            <i class="fa-solid fa-truck-fast text-xl"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#001e2b]">Fast Delivery</h4>
+            <p class="text-sm text-gray-400">Same-day delivery available in most areas.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 bg-[#e8f5e9] rounded-full flex items-center justify-center shrink-0 text-[#198754]"
+          >
+            <i class="fa-solid fa-shield-halved text-xl"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-[#001e2b]">Secure Shopping</h4>
+            <p class="text-sm text-gray-400">Your data and payments are completely secure.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm max-w-lg">
+        <div class="flex items-center gap-4 mb-4">
+          <img
+            src="/images/review-author.webp"
+            class="w-14 h-14 rounded-full border-2 border-white shadow-sm"
+            alt="Sarah"
+          />
+          <div>
+            <h5 class="font-bold text-[#001e2b]">Sarah Johnson</h5>
+            <div class="flex text-yellow-400 text-sm">
+              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
+              ><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i
+              ><i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-500 italic leading-relaxed text-sm">
+          "FreshCart has transformed my shopping experience. The quality of the products is
+          outstanding, and the delivery is always on time. Highly recommend!"
+        </p>
+      </div>
+    </div>
+
+    <div class="w-full lg:w-5/12 bg-white p-8 md:p-12 rounded-4xl shadow-sm border border-gray-100">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-[#001e2b] mb-2">Create Your Account</h2>
+        <p class="text-gray-400 text-sm">Start your fresh journey with us today</p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 mb-8">
+        <button
+          class="flex-1 flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-xl hover:bg-gray-50 transition-all font-medium text-gray-700"
+        >
+          <i class="text-red-500 fa-brands fa-google"></i> Google
+        </button>
+        <button
+          class="flex-1 flex items-center justify-center gap-3 border border-gray-200 py-3 rounded-xl hover:bg-gray-50 transition-all font-medium text-gray-700"
+        >
+          <i class="text-blue-700 fa-brands fa-square-facebook"></i> Facebook
+        </button>
+      </div>
+
+      <div class="relative flex items-center justify-center mb-8">
+        <div class="w-full border-t border-gray-100"></div>
+        <span class="absolute bg-white px-4 text-xs text-gray-400 uppercase tracking-widest"
+          >or</span
+        >
+      </div>
+
+      <form class="space-y-5" [formGroup]="registerForm" (ngSubmit)="submitForm()">
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Name*</label>
+          <input
+            formControlName="name"
+            type="text"
+            placeholder="Ali"
+            class="w-full px-5 py-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-[#198754] focus:border-transparent outline-none transition-all placeholder:text-gray-300"
+          />
+            @if(registerForm.get("name")?.errors&& registerForm.get("name")?.touched ){
+                @if (registerForm.get("name")?.hasError("required")){
+                    <p class="text-red-500 text-sm my-4 ">name is required</p>
+                }@else if (registerForm.get("name")?.hasError("minlength")){
+                    <p class="text-red-500 text-sm my-4 ">name must be at least 3 characters</p>
+                }@else if (registerForm.get("name")?.hasError("maxlength")){
+                    <p class="text-red-500 text-sm my-4 ">name must be less than 30 characters</p>
+                }     
+            }
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Email*</label>
+          <input
+            formControlName="email"
+            type="email"
+            placeholder="ali@example.com"
+            class="w-full px-5 py-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-[#198754] focus:border-transparent outline-none transition-all placeholder:text-gray-300"
+          />
+             @if(registerForm.get("email")?.errors&& registerForm.get("email")?.touched ){
+                @if (registerForm.get("email")?.hasError("required")){
+                    <p class="text-red-500 text-sm my-4 ">email is required</p>
+                }@else if (registerForm.get("email")?.hasError("email")){
+                    <p class="text-red-500 text-sm my-4 ">pleas enter vialed email</p>
+                }    
+            }
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Password*</label>
+          <input
+            formControlName="password"
+            type="password"
+            placeholder="create a strong password"
+            class="w-full px-5 py-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-[#198754] focus:border-transparent outline-none transition-all placeholder:text-gray-300"
+          />
+             @if(registerForm.get("password")?.errors&& registerForm.get("password")?.touched ){
+                @if (registerForm.get("password")?.hasError("required")){
+                    <p class="text-red-500 text-sm my-4 ">password is required</p>
+                }@else if (registerForm.get("password")?.hasError("pattern")){
+                    <p class="text-red-500 text-sm my-4 ">password minimum length is 8 characters and must contain at least one uppercase letter, one lowercase letter, one number, and one special character</p>
+                }   
+            }
+          <div class="mt-2 flex items-center justify-between">
+            <div class="h-1 flex-1 bg-gray-100 rounded-full mr-3">
+              <div class="h-full bg-red-400 w-1/4 rounded-full"></div>
+            </div>
+            <span class="text-2xs font-bold text-gray-400 uppercase">Weak</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Confirm Password*</label>
+          <input
+            formControlName="rePassword"
+            type="password"
+            placeholder="confirm your password"
+            class="w-full px-5 py-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-[#198754] focus:border-transparent outline-none transition-all placeholder:text-gray-300"
+          />
+           @if(registerForm.get("rePassword")?.errors&& registerForm.get("rePassword")?.touched ){
+                @if (registerForm.get("rePassword")?.hasError("required")){
+                    <p class="text-red-500 text-sm my-4 ">rePassword is required</p>
+                }@else if (registerForm.get("rePassword")?.hasError("pattern")){
+                    <p class="text-red-500 text-sm my-4 ">Confirm Password minimum length is 8 characters and must contain at least one uppercase letter, one lowercase letter, one number, and one special character</p>
+                }   
+            }
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-2">Phone Number*</label>
+          <input
+            formControlName="phone"
+            type="tel"
+            placeholder="+1 234 567 8900"
+            class="w-full px-5 py-3.5 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:ring-2 focus:ring-[#198754] focus:border-transparent outline-none transition-all placeholder:text-gray-300"
+          />
+                @if(registerForm.get("phone")?.errors&& registerForm.get("phone")?.touched ){
+                @if (registerForm.get("phone")?.hasError("required")){
+                    <p class="text-red-500 text-sm my-4 ">phone is required</p>
+                }@else if (registerForm.get("phone")?.hasError("pattern")){
+                    <p class="text-red-500 text-sm my-4 ">phone number must be Egyptian phone number</p>
+                }   
+            }
+        </div>
+
+        <div class="flex items-start gap-3 py-2">
+          <input
+            type="checkbox"
+            id="terms"
+            class="mt-1 w-4 h-4 text-[#198754] rounded border-gray-300 focus:ring-[#198754]"
+          />
+          <label for="terms" class="text-xs text-gray-500 leading-normal">
+            I agree to the <a href="#" class="text-[#198754] font-bold">Terms of Service</a> and
+            <a href="#" class="text-[#198754] font-bold">Privacy Policy</a>*
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-[#198754] text-white py-4 rounded-xl font-bold hover:bg-[#146c43] transition-all shadow-md flex items-center justify-center gap-3"
+        >
+          <i class="fa-solid fa-user-plus"></i> Create My Account
+        </button>
+
+        <p class="text-center text-sm text-gray-500 mt-6">
+          Already have an account?
+          <a href="/signin" class="text-[#198754] font-bold hover:underline">Sign In</a>
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

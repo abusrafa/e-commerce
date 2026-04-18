@@ -1,0 +1,94 @@
+
+<header class="bg-[#22c55e] py-10 px-4 mb-2">
+  <div class="max-w-325 mx-auto">
+    @if (!categoryId()) {
+      <nav class="flex items-center gap-2 text-white/80 text-xs mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-white">All Categories</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <i class="fa-solid fa-layer-group text-white text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">All Categories</h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Browse our wide range of product categories
+          </p>
+        </div>
+      </div>
+     } @else {
+      <nav class="flex items-center gap-2 text-white/80 text-xs mb-4 font-medium">
+        <a routerLink="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a routerLink="/categories" class="hover:underline">Categories</a>
+        <span>/</span>
+        <span class="text-white">{{categoryDetails()?.data?.name}}</span>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <div class="w-13 h-13 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/10 shadow-xl">
+          <img
+            [alt]="categoryDetails()?.data?.name"
+            [src]="categoryDetails()?.data?.image"
+            class="w-8 h-8 object-contain transition-transform duration-500"
+          />
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-bold text-white tracking-tight">
+            {{ categoryDetails()?.data?.name }}
+          </h1>
+          <p class="text-white/70 text-[13px] font-medium">
+            Choose a subcategory to browse products
+          </p>
+        </div>
+      </div>
+    } 
+  </div>
+</header>
+
+<div class="container max-w-325 mx-auto px-4 py-3">
+
+  @if (categoryId()) {
+    <div>
+      <app-subcategories></app-subcategories>
+    </div>
+  } 
+  @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+      @for (category of categoriesList(); track category._id) {
+        <div 
+          
+          [routerLink]="['/categories',category._id]"
+          class="group bg-white rounded-2xl border border-gray-100 p-4 sm:p-6 shadow-sm hover:shadow-xl hover:border-green-200 transition-all duration-300 hover:-translate-y-1 cursor-pointer"
+        >
+          <div class="aspect-square rounded-xl overflow-hidden bg-gray-50 mb-4">
+            <img 
+              [src]="category.image" 
+              [alt]="category.name" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            >
+          </div>
+
+          <h3 class="font-bold text-gray-900 text-center group-hover:text-green-600 transition-colors">
+            {{ category.name }}
+          </h3>
+
+          <div class="flex justify-center mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span class="text-xs text-green-600 flex items-center gap-1 leading-none font-medium">
+              View Subcategories
+              <i class="fa-solid fa-arrow-right text-2xs flex items-center justify-center"></i>
+            </span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

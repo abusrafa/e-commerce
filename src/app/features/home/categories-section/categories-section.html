@@ -1,0 +1,30 @@
+<section class="py-10 px-4 max-w-350 mx-auto">
+  
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-2">
+      <div class="w-1.5 h-8 bg-[#198754] rounded-full"></div>
+      <h2 class="text-2xl font-bold text-[#001e2b]">Shop By <span class="text-[#198754]">Category</span></h2>
+    </div>
+    <a routerLink="/categories" class="text-[#198754] font-semibold flex items-center gap-1 hover:underline transition-all">
+      View All Categories <i class="fa-solid fa-arrow-right text-sm"></i>
+    </a>
+  </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+ @for (category of categoriesList(); track category._id) {
+    <div class="group bg-white border border-gray-100 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:-translate-y-1.5 cursor-pointer">
+      <div class="relative w-24 mx-auto mb-4 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden border border-gray-50 group-hover:border-green-100">
+    @if (category.image) {
+    <img [src]="category.image" [alt]="category.name" class="size-24 transition-transform duration-500 group-hover:scale-110">
+    }
+       
+      </div>
+      <h3 class="font-bold text-[#001e2b] text-sm group-hover:text-[#198754] transition-colors">{{ category.name }}</h3>
+    </div>
+
+  }
+</div>
+</section>
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}

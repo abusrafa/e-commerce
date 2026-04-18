@@ -1,0 +1,353 @@
+@if (cartDetails()?.products) {
+  @if ((cartDetails()?.products?.length || 0) > 0) {
+  <section class="min-h-screen bg-[#f8f9fa] py-6 px-4">
+    <div class="max-w-325 mx-auto">
+
+      <!-- header -->
+
+      <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6">
+        <a routerLink="/" class="hover:text-green-600 transition-colors">Home</a>
+        <i class="fa-solid fa-chevron-right text-2xs"></i>
+        <span class="text-[#001e2b] font-semibold">Shopping Cart</span>
+      </nav>
+
+      <div class="flex flex-wrap items-center gap-x-4 mb-6">
+        <div
+          class="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center shadow-lg shadow-green-100 shrink-0"
+        >
+          <i class="fa-solid fa-cart-shopping text-white text-xl"></i>
+        </div>
+
+        <h1 class="text-2xl font-medium text-[#001e2b] tracking-tight">Shopping Cart</h1>
+
+        <p class="w-full text-gray-500 font-medium text-sm mt-2">
+          Your cart contains
+          <span class="text-green-600 text-sm">{{totalCount()}} items </span> across
+          <span class="text-orange-600 text-sm">{{ cartDetails().products.length}} products</span>
+          
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- lift side  -->
+
+        <div class="lg:col-span-2 space-y-4">
+          @for (item of cartDetails().products; track item.product._id) {
+            <div
+              class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex items-center gap-6 group hover:shadow-md transition-shadow relative"
+            >
+     <div class="flex flex-col items-end shrink-0">
+  <div class="w-28 h-30 bg-[#f8f9fa] rounded-xl border border-gray-100 overflow-hidden p-2 shrink-0 flex items-center justify-center group">
+  <img
+    [src]="item.product.imageCover"
+    class="w-full h-full object-contain transition-transform duration-300 hover:scale-110"
+    [alt]="item.product.title"
+  />
+</div>
+
+  <div class="mt-2">
+    @if (item.product.quantity > 0) {
+      <span class="text-2xs bg-[#00d084] text-white rounded-full font-bold py-1 px-3 flex items-center shadow-sm">
+        <i class="fa-solid fa-check mr-1 scale-75"></i> In Stock
+      </span>
+    } @else {
+      <span class="text-2xs bg-red-500 text-white py-1 px-3 rounded-full font-bold flex items-center gap-1 shadow-sm">
+        <i class="fa-solid fa-xmark text-[9px]"></i> Out Stock
+      </span>
+    }
+  </div>
+</div>
+
+              <div class="grow space-y-2">
+                <h3 class="font-bold text-[#001e2b] text-sm leading-tight">
+                  {{ item.product.title }}
+                </h3>
+                <div class="flex items-center gap-3">
+                  <span
+                    class="text-[11px] bg-[#f2fcf6] text-green-600 px-2 py-1 rounded font-bold"
+                    >{{ item.product.category.name }}</span
+                  >
+                  <span class="text-[11px] text-gray-400 uppercase"
+                    >SKU:{{ item.product._id.slice(-6) }}</span
+                  >
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                  <span class="text-[14px] font-bold text-green-600"
+                    >{{ item.price }} <span class="text-[14px] font-bold">EGP</span></span
+                  >
+                  <span class="text-gray-400 text-2xs">per unit</span>
+                </div>
+
+                <div class="flex items-center gap-4 pt-3">
+                  <div
+                    class="flex items-center bg-white border border-gray-100 rounded-xl p-1 shadow-sm w-fit"
+                  >
+                    <button
+                      (click)="updateProductQuantity(item.product._id, item.count - 1)"
+                      type="button"
+                      class="cursor-pointer w-8 h-8 flex items-center justify-center text-gray-400 hover:bg-gray-200 rounded-sm transition-colors font-medium text-xl"
+                    >
+                      <i class="fa-solid fa-minus scale-75"></i>
+                    </button>
+
+                    <span class="px-4 font-bold text-[#001e2b] text-base min-w-10 text-center">
+                      {{ item.count }}
+                    </span>
+
+                    <button
+                      (click)="updateProductQuantity(item.product._id, item.count + 1)"
+                      type="button"
+                      class="cursor-pointer w-8 h-8 flex items-center justify-center bg-green-600 text-white rounded-sm shadow-md shadow-green-200 hover:bg-[#157347] transition-all active:scale-90"
+                    >
+                      <i class="fa-solid fa-plus"></i>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="flex flex-col justify-between items-end self-stretch py-1">
+                <button
+                  (click)="removeProduct(item.product._id)"
+                  type="button"
+                  class="cursor-pointer w-10 h-10 bg-red-50 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all flex items-center justify-center"
+                >
+                  <i class="fa-regular fa-trash-can"></i>
+                </button>
+                <div class="text-right">
+                  <p class="text-2xs text-gray-400 uppercase font-bold tracking-wider">Total</p>
+                  <p class="text-2xl font-black text-[#001e2b]">
+                    {{ item.price * item.count |number:'1.0-0'}}
+                    <span class="text-xs font-normal text-gray-400">EGP</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          }
+
+          <div class="flex justify-between items-center pt-6">
+            <button
+              routerLink="/"
+              class="text-gray-500 font-bold flex items-center gap-2 hover:text-green-600 transition-colors cursor-pointer"
+            >
+              <i class="fa-solid fa-arrow-left text-sm"></i> Continue Shopping
+            </button>
+            <button
+              (click)="ClearAllItems()"
+              type="button"
+              class=" text-gray-400 font-bold flex items-center gap-2 hover:text-red-500 transition-colors cursor-pointer"
+            >
+              <i class="fa-regular fa-trash-can"></i> Clear all items
+            </button>
+          </div>
+        </div>
+
+
+        <!-- Right side -->
+
+
+        <div class="sticky top-24">
+          <div
+            class="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden"
+          >
+            <div class="bg-green-600 p-4 text-white flex items-center justify-between">
+              <div>
+                <h2 class="text-xl font-bold flex items-center gap-2">
+                  <i class="fa-solid fa-bag-shopping text-lg"></i> Order Summary
+                </h2>
+                <p class="text-xs opacity-80 mt-1 font-medium">
+                   {{totalCount()}} items {{ cartDetails().products.length }} / products in your cart
+                </p>
+              </div>
+            </div>
+
+            <div class="p-4 space-y-6">
+              @if (cartDetails().totalCartPrice >= 500) {
+                <div
+                  class="bg-[#f2fcf6] p-4 rounded-2xl border border-green-50 flex items-center gap-4"
+                >
+                  <div
+                    class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 shadow-sm"
+                  >
+                    <i class="fa-solid fa-truck"></i>
+                  </div>
+                  <div>
+                    <p class="text-green-600 font-bold text-sm">Free Shipping!</p>
+                    <p class="text-gray-400 text-[11px]">You qualify for free delivery</p>
+                  </div>
+                </div>
+
+                <div class="space-y-4 border-b border-gray-100 pb-2">
+                <div class="flex justify-between text-gray-500 font-medium">
+                  <span>Subtotal</span>
+                  <span class="text-gray-500"
+                    >{{ cartDetails().totalCartPrice |number:'1.0-0'}} EGP</span
+                  >
+                </div>
+                <div class="flex justify-between text-gray-500 font-medium">
+                  <span>Shipping</span>
+                  <span class="text-green-600 font-bold">FREE</span>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-xl font-bold text-[#001e2b]">Total</span>
+                <div class="text-right">
+                  <p class="text-xl font-bold text-[#001e2b]">
+                    {{ cartDetails().totalCartPrice |number:'1.0-0'}} <span class="text-xs font-medium text-gray-400">EGP</span>
+                  </p>
+                </div>
+              </div>
+              } @else {
+                <div
+                  class="bg-orange-50 p-4 rounded-2xl border border-orange-50 gap-4"
+                >
+                  <div
+                    class="flex items-center justify-start text-orange-600 mb-2" 
+                  >
+                    <i class="fa-solid fa-truck"></i>
+                    <span class="ms-2 text-sm">Add<span class="mx-1">{{ 500 - cartDetails().totalCartPrice }}</span> EGP for free shipping</span>
+                  </div>
+
+                  <div class="w-full bg-orange-100 rounded-full h-2 ">
+                    <div
+                      class="h-full bg-linear-to-r from-orange-400 to-amber-400 rounded-full transition-all duration-500"
+                      [style.width.%]="cartProgress()"
+                    ></div>
+                  </div>
+                </div>
+
+              <div class="space-y-4 border-b border-gray-100 pb-2">
+                <div class="flex justify-between text-gray-500 font-medium">
+                  <span>Subtotal</span>
+                  <span class="text-gray-500"
+                    >{{ cartDetails().totalCartPrice |number:'1.0-0'}} EGP</span
+                  >
+                </div>
+                <div class="flex justify-between text-gray-500 font-medium">
+                  <span>Shipping</span>
+                  <span class="text-green-600 font-bold">50 EGP</span>
+                </div>
+              </div>
+
+              <div class="flex justify-between items-center">
+                <span class="text-xl font-bold text-[#001e2b]">Total</span>
+                <div class="text-right">
+                  <p class="text-xl font-black text-[#001e2b]">
+                    {{ cartDetails().totalCartPrice + 50 |number:'1.0-0'}} <span class="text-xs font-medium text-gray-400">EGP</span>
+                  </p>
+                </div>
+              </div>
+              }
+
+
+
+              <div class="space-y-4 pt-2">
+                <div class="relative">
+                  <input
+                    type="text"
+                    placeholder="Apply Promo Code"
+                    class="w-full bg-[#f8f9fa] border-2 border-dashed border-gray-200 rounded-2xl py-4 px-12 text-sm focus:border-green-600 outline-none transition-colors"
+                  />
+                  <i
+                    class="fa-solid fa-tag absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"
+                  ></i>
+                </div>
+
+                <button
+                  type="button"
+                  [routerLink]="['/checkout', cartDetails()._id]"
+                  class="cursor-pointer w-full bg-green-600 text-white py-3 rounded-xl font-bold text-lg hover:bg-[#146c43] shadow-lg shadow-green-100 flex items-center justify-center gap-3 transition-all active:scale-95"
+                >
+                  <i class="fa-solid fa-lock text-sm"></i> Secure Checkout
+                </button>
+              </div>
+
+              <div
+                class=" r flex justify-center gap-6 pt-2 text-2xs text-gray-400 font-black uppercase tracking-wider"
+              >
+                <span class="flex items-center gap-1.5"
+                  ><i class="fa-solid fa-shield-halved text-green-600"></i> Secure Payment</span
+                >
+                <span class="flex items-center gap-1.5"
+                  ><i class="fa-solid fa-truck-fast text-blue-500"></i> Fast Delivery</span
+                >
+              </div>
+
+              <button
+                routerLink="/"
+                class="w-full text-center text-green-600 font-bold text-sm hover:underline cursor-pointer"
+              >
+                ← Continue Shopping
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <section class="min-h-[60vh] flex items-center justify-center py-20 px-4 bg-white">
+    <div class="max-w-2xl w-full text-center">
+      <div class="flex justify-center mb-8">
+        <div
+          class="w-36 h-36 bg-[#f8f9fa] rounded-full flex items-center justify-center border border-gray-100"
+        >
+          <i class="fa-solid fa-box-archive text-6xl text-gray-300"></i>
+        </div>
+      </div>
+
+      <div class="mb-10">
+        <h2 class="text-3xl font-bold text-[#001e2b] mb-3">Your cart is empty</h2>
+        <p class="text-gray-500 text-lg max-w-sm mx-auto leading-relaxed">
+          Looks like you haven't added anything to your cart yet. Start exploring our products!
+        </p>
+      </div>
+
+      <div class="flex justify-center mb-16">
+        <button
+           [routerLink]="['/Products','']"
+          type="button"
+          class="cursor-pointer bg-[#198754] text-white px-12 py-4 rounded-xl font-bold text-lg hover:bg-[#146c43] transition-all shadow-lg shadow-green-100 flex items-center gap-3 group"
+        >
+          Start Shopping
+          <i class="fa-solid fa-arrow-right transition-transform group-hover:translate-x-1"></i>
+        </button>
+      </div>
+
+      <div class="pt-10 border-t border-gray-100">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">
+          Popular Categories
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <span
+            class="px-6 py-2.5 bg-[#f8f9fa] text-gray-600 rounded-full text-sm font-semibold hover:bg-[#f2fcf6] hover:text-[#198754] cursor-pointer transition-all border border-gray-100"
+            >Electronics</span
+          >
+          <span
+            class="px-6 py-2.5 bg-[#f8f9fa] text-gray-600 rounded-full text-sm font-semibold hover:bg-[#f2fcf6] hover:text-[#198754] cursor-pointer transition-all border border-gray-100"
+            >Fashion</span
+          >
+          <span
+            class="px-6 py-2.5 bg-[#f8f9fa] text-gray-600 rounded-full text-sm font-semibold hover:bg-[#f2fcf6] hover:text-[#198754] cursor-pointer transition-all border border-gray-100"
+            >Home</span
+          >
+          <span
+            class="px-6 py-2.5 bg-[#f8f9fa] text-gray-600 rounded-full text-sm font-semibold hover:bg-[#f2fcf6] hover:text-[#198754] cursor-pointer transition-all border border-gray-100"
+            >Beauty</span
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+}
+} @else {
+  <div class="min-h-screen flex items-center justify-center">
+     <p class="animate-pulse text-green-600 font-bold">Loading your cart...</p>
+  </div>
+}
+
+@if (isLoading()) {
+  <app-loading></app-loading>
+}
