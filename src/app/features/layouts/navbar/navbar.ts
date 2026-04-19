@@ -1,15 +1,22 @@
-import { Wishlist } from './../../wishlist/wishlist';
 import { CartService } from './../../../core/services/cart-service';
 import { AuthService } from './../../../core/auth/services/auth-service';
-import { Component, computed, HostListener, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { initFlowbite } from 'flowbite';
-import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { WishlistService } from '../../../core/services/wishlist-service';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true, 
+  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
@@ -24,20 +31,18 @@ export class Navbar implements OnInit {
   isLoggedIn = computed(() => this.authService.isUserLoggedIn());
   cartCount = computed(() => this.cartService.totalCartItems());
   wishlistCount = computed(() => this.wishlistService.totalWishlistItems());
-  
+
   isTopBarVisible = true;
   isMenuOpen = signal(false);
+  isSideMenuOpen = false;
 
-
-goToSearch(term: string): void {
-  if (term.trim()) {
-    this.router.navigate(['/search'], { 
-      queryParams: { q: term } 
-    });
+  goToSearch(term: string): void {
+    if (term.trim()) {
+      this.router.navigate(['/search'], {
+        queryParams: { q: term },
+      });
+    }
   }
-}
-
-  
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.plat_id)) {
@@ -54,7 +59,7 @@ goToSearch(term: string): void {
           const count = data.products?.reduce((acc: number, item: any) => acc + item.count, 0) || 0;
           this.cartService.totalCartItems.set(count);
         },
-        error: (err) => console.error('Navbar Cart Error:', err)
+        error: (err) => console.error('Navbar Cart Error:', err),
       });
     }
   }
@@ -67,11 +72,6 @@ goToSearch(term: string): void {
     }
   }
 
-
-  toggleMenu() {
-    this.isMenuOpen.update(v => !v);
-  }
-
   signOut() {
     if (isPlatformBrowser(this.plat_id)) {
       localStorage.removeItem('userToken');
@@ -81,5 +81,13 @@ goToSearch(term: string): void {
     this.authService.isUserLoggedIn.set(false);
     this.cartService.totalCartItems.set(0);
     this.router.navigate(['/login']);
+  }
+
+  toggleSideMenu() {
+    this.isSideMenuOpen = !this.isSideMenuOpen;
+  }
+
+  toggleMenu() {
+    this.isMenuOpen.set(!this.isMenuOpen());
   }
 }
